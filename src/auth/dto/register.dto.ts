@@ -1,11 +1,14 @@
 import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 
-export class CreateUserDto {
+export class RegisterDto {
     @IsString()
     name: string;
 
     @IsString()
     lastName: string;
+
+    @IsString()
+    email: string;
 
     @IsNumber()
     age: number;
@@ -14,9 +17,6 @@ export class CreateUserDto {
     @MinLength(10)
     @IsOptional()
     phoneNumber?: string;
-
-    @IsString()
-    email: string;
 
     @IsString()
     @MinLength(8)

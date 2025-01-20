@@ -15,8 +15,8 @@ export class User {
     @Column()
     age: number;
 
-    @Column()
-    phoneNumber: string;
+    @Column({ unique: true, nullable: true})
+    phoneNumber?: string;
     
     @Column({ unique: true, nullable: false })
     email: string;
