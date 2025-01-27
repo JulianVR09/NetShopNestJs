@@ -1,5 +1,6 @@
 import { Role } from "src/common/enums/role.enum";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Product } from "src/products/entities/product.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -15,8 +16,8 @@ export class User {
     @Column()
     age: number;
 
-    @Column()
-    phoneNumber: string;
+    @Column({ unique: true, nullable: true})
+    phoneNumber?: string;
     
     @Column({ unique: true, nullable: false })
     email: string;
@@ -32,4 +33,8 @@ export class User {
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+    @OneToMany(() => Product, (product) => product.user)
+    products: Product[];
+
 }

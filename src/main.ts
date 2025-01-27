@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { AllExceptionsFilter } from './common/exceptionFilters/exceptionFilter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -8,6 +11,17 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
 
   app.enableCors()  
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  )
+
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   const config = new DocumentBuilder()
   .setTitle('NetShop')
