@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { BcryptService } from 'src/common/services/bcrypt.service';
+import { Role } from 'src/common/enums/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -56,5 +57,9 @@ export class UsersService {
       where: { email },
       select: ['id', 'name', 'lastName', 'email', 'password', 'phoneNumber', 'role']
     })
+  }
+
+  async updateUserRole(userId: string, newRole: Role): Promise<void> {
+    await this.userRepository.update(userId, {role: newRole})
   }
 }
