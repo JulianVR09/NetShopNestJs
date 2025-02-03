@@ -1,6 +1,7 @@
 import { Category } from "src/common/enums/categories.enum";
+import { OrderItem } from "src/order-item/entities/order-item.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -31,4 +32,7 @@ export class Product {
     @ManyToOne(() => User, (user) => user.products)
     @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
     user: User;
+
+    @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+    orderItems: OrderItem[];
 }

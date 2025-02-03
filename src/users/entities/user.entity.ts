@@ -1,4 +1,5 @@
 import { Role } from "src/common/enums/role.enum";
+import { Order } from "src/order/entities/order.entity";
 import { Product } from "src/products/entities/product.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -37,4 +38,6 @@ export class User {
     @OneToMany(() => Product, (product) => product.user)
     products: Product[];
 
+    @OneToMany(() => Order, (order) => order.user)
+    orders: Order[];
 }

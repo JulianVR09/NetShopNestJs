@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 import { CloudinaryModule } from './common/cloudinary/cloudinary.module';
+import { OrderModule } from './order/order.module';
+import { OrderItemModule } from './order-item/order-item.module';
 
 @Module({
   imports: [
@@ -33,7 +35,11 @@ import { CloudinaryModule } from './common/cloudinary/cloudinary.module';
 
     ProductsModule,
 
-    CloudinaryModule
+    CloudinaryModule,
+
+    OrderModule,
+
+    OrderItemModule
   ],
   controllers: [],
   providers: [],

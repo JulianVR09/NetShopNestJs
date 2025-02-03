@@ -45,6 +45,10 @@ export class ProductsService {
     }
 }
 
+  async findProductById(id: string): Promise<Product> {
+    return this.productRepository.findOne({where: { id }})
+  }
+
   async findAllProductsCategory(): Promise<{[key: string]: Product[]}> {
     const query = this.productRepository.createQueryBuilder('product').select(['product', 'product.category']).getMany();
     
@@ -83,6 +87,4 @@ export class ProductsService {
 
     await this.productRepository.remove(product);
   }
-
-  
 }
