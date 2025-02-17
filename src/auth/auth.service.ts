@@ -1,10 +1,12 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { BcryptService } from "src/common/services/bcrypt.service";
-import { UsersService } from "src/users/users.service";
-import { RegisterDto } from "./dto/register.dto";
-import { LoginDto } from "./dto/login.dto";
-import { User } from "src/users/entities/user.entity";
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { userTokenPayload } from 'src/common/interface/userTokenPayload.interface';
+import { BcryptService } from 'src/common/services/bcrypt.service';
+import { User } from 'src/users/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
+
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -14,23 +16,26 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  private generateToken(user: any): string {
+  private generateToken(user: userTokenPayload): string {
     const payload = { id: user.id, email: user.email, role: user.role };
-    return this.jwtService.sign(payload)
+    return this.jwtService.sign(payload);
   }
 
-  async registerUser(registerDto: RegisterDto): Promise<RegisterDto>{
-    return this.userService.createUser(registerDto)
+  async registerUser(registerDto: RegisterDto): Promise<RegisterDto> {
+    return this.userService.createUser(registerDto);
   }
 
-  async loginUser({email, password}: LoginDto) {
-    const findUser = await this.userService.findUserWithPassword(email)
+  async loginUser({ email, password }: LoginDto) {
+    const findUser = await this.userService.findUserWithPassword(email);
 
-    if(!findUser) throw new UnauthorizedException(`User ${email} not found`)
+    if (!findUser) throw new UnauthorizedException(`User ${email} not found`);
 
-    const isMatch = await this.bcryptService.comparePasswords(password, findUser.password);
+    const isMatch = await this.bcryptService.comparePasswords(
+      password,
+      findUser.password
+    );
 
-    if(!isMatch) throw new UnauthorizedException(`invalid password`)
+    if (!isMatch) throw new UnauthorizedException('invalid password');
 
     const accessToken = this.generateToken(findUser);
     return {
@@ -40,9 +45,9 @@ export class AuthService {
         name: findUser.name,
         lastName: findUser.lastName,
         email: findUser.email,
-        role: findUser.role
-      }
-    }
+        role: findUser.role,
+      },
+    };
   }
 
   async findAllUser(): Promise<User[]> {

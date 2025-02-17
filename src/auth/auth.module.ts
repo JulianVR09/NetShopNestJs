@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UsersModule } from 'src/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { BcryptService } from 'src/common/services/bcrypt.service';
+import { UsersModule } from 'src/users/users.module';
+
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 
 @Module({
   imports: [
@@ -16,11 +17,11 @@ import { BcryptService } from 'src/common/services/bcrypt.service';
         secret: configService.get<string>('SECRET'),
         signOptions: { expiresIn: '1hr' },
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, BcryptService],
-  exports: [JwtModule]
+  exports: [JwtModule],
 })
 export class AuthModule {}

@@ -1,23 +1,25 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AuthModule } from './auth/auth.module';
-import { ProductsModule } from './products/products.module';
 import { CloudinaryModule } from './common/cloudinary/cloudinary.module';
 import { OrderModule } from './order/order.module';
 import { OrderItemModule } from './order-item/order-item.module';
+import { ProductsModule } from './products/products.module';
+import { ServicesModule } from './services/services.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
 
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async ( configService: ConfigService ) => ({
+      useFactory: async (configService: ConfigService) => ({
         type: 'mysql',
         host: configService.get<string>('DB_HOST'),
         port: configService.get<number>('DB_PORT'),
@@ -39,7 +41,9 @@ import { OrderItemModule } from './order-item/order-item.module';
 
     OrderModule,
 
-    OrderItemModule
+    OrderItemModule,
+
+    ServicesModule,
   ],
   controllers: [],
   providers: [],

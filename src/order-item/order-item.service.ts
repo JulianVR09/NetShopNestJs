@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOrderItemDto } from './dto/create-order-item.dto';
-import { UpdateOrderItemDto } from './dto/update-order-item.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderItem } from './entities/order-item.entity';
 import { Order } from 'src/order/entities/order.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { Repository } from 'typeorm';
+
+import { OrderItem } from './entities/order-item.entity';
 
 @Injectable()
 export class OrderItemService {
@@ -14,7 +13,11 @@ export class OrderItemService {
     private readonly orderItemRepository: Repository<OrderItem>
   ) {}
 
-  async createOrderItem(order: Order, product: Product, quantity: number): Promise<OrderItem>{
+  async createOrderItem(
+    order: Order,
+    product: Product,
+    quantity: number
+  ): Promise<OrderItem> {
     const orderItem = this.orderItemRepository.create({
       order,
       product,
@@ -27,14 +30,17 @@ export class OrderItemService {
 
   async findOrderItemsByOrderId(orderId: string): Promise<OrderItem[]> {
     return this.orderItemRepository.find({
-      where: { order: { id: orderId }},
-      relations: ['product']
-    })
+      where: { order: { id: orderId } },
+      relations: ['product'],
+    });
   }
 
-  async findOrderItemByOrderIdAndProductId(orderId: string, productId: string): Promise<OrderItem> {
+  async findOrderItemByOrderIdAndProductId(
+    orderId: string,
+    productId: string
+  ): Promise<OrderItem> {
     return this.orderItemRepository.findOne({
-      where: { order: { id: orderId }, product: { id: productId } }
+      where: { order: { id: orderId }, product: { id: productId } },
     });
   }
 

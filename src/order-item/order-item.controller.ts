@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
-import { OrderItemService } from './order-item.service';
-import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { Order } from 'src/order/entities/order.entity';
 import { Product } from 'src/products/entities/product.entity';
+
+import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { OrderItem } from './entities/order-item.entity';
+import { OrderItemService } from './order-item.service';
 
 @Controller('order-items')
 export class OrderItemController {
@@ -11,10 +12,10 @@ export class OrderItemController {
 
   @Post()
   async create(
-    @Body() createOrderItemDto: CreateOrderItemDto,
+    @Body() createOrderItemDto: CreateOrderItemDto
   ): Promise<OrderItem> {
     const { orderId, productId, quantity } = createOrderItemDto;
-    
+
     const order = new Order();
     order.id = orderId;
 
@@ -32,9 +33,12 @@ export class OrderItemController {
   @Get('order/:orderId/product/:productId')
   async findByOrderIdAndProductId(
     @Param('orderId') orderId: string,
-    @Param('productId') productId: string,
+    @Param('productId') productId: string
   ): Promise<OrderItem> {
-    return this.orderItemService.findOrderItemByOrderIdAndProductId(orderId, productId);
+    return this.orderItemService.findOrderItemByOrderIdAndProductId(
+      orderId,
+      productId
+    );
   }
 
   @Delete(':id')

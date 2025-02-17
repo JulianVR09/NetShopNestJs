@@ -1,27 +1,34 @@
-import { Order } from "src/order/entities/order.entity";
-import { Product } from "src/products/entities/product.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Order } from 'src/order/entities/order.entity';
+import { Product } from 'src/products/entities/product.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class OrderItem {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @ManyToOne(() => Order, (order) => order.items)
-    order: Order;
+  @ManyToOne(() => Order, (order) => order.items)
+  order: Order;
 
-    @ManyToOne(() => Product, (product) => product.orderItems)
-    product: Product;
+  @ManyToOne(() => Product, (product) => product.orderItems)
+  product: Product;
 
-    @Column()
-    quantity: number;
+  @Column()
+  quantity: number;
 
-    @Column()
-    totalPrice: number;
+  @Column()
+  totalPrice: number;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

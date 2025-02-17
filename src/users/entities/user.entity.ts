@@ -1,43 +1,55 @@
-import { Role } from "src/common/enums/role.enum";
-import { Order } from "src/order/entities/order.entity";
-import { Product } from "src/products/entities/product.entity";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { Role } from '../../common/enums/role.enum';
+import { Order } from '../../order/entities/order.entity';
+import { Product } from '../../products/entities/product.entity';
+import { Service } from '../../services/entities/service.entity';
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    lastName: string;
+  @Column()
+  lastName: string;
 
-    @Column()
-    age: number;
+  @Column()
+  age: number;
 
-    @Column({ unique: true, nullable: true})
-    phoneNumber?: string;
-    
-    @Column({ unique: true, nullable: false })
-    email: string;
+  @Column({ unique: true, nullable: true })
+  phoneNumber?: string;
 
-    @Column({ select: false, nullable: false })
-    password: string;
+  @Column({ unique: true, nullable: false })
+  email: string;
 
-    @Column({ type: 'enum', default: Role.USER, enum: Role })
-    role: Role;
+  @Column({ select: false, nullable: false })
+  password: string;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @Column({ type: 'enum', default: Role.USER, enum: Role })
+  role: Role;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @OneToMany(() => Product, (product) => product.user)
-    products: Product[];
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @OneToMany(() => Order, (order) => order.user)
-    orders: Order[];
+  @OneToMany(() => Product, (product) => product.user)
+  products: Product[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
+
+  @OneToMany(() => Service, (service) => service.user)
+  services: Service[];
 }

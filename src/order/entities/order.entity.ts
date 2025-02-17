@@ -1,21 +1,28 @@
-import { OrderItem } from "src/order-item/entities/order-item.entity";
-import { User } from "src/users/entities/user.entity";
-import { CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { OrderItem } from 'src/order-item/entities/order-item.entity';
+import { User } from 'src/users/entities/user.entity';
+import {
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Order {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @ManyToOne(() => User, (user) => user.orders)
-    user: User;
+  @ManyToOne(() => User, (user) => user.orders)
+  user: User;
 
-    @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
-    items: OrderItem
-    
-    @CreateDateColumn()
-    createdAt: Date;
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
+  items: OrderItem;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
